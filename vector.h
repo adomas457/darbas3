@@ -30,6 +30,7 @@ class Vector {
         void erase(size_t index);
         void pop_back();
         void clear();
+        void swap(Vector& other) noexcept;
 
         T& front();
         const T& front() const;
@@ -234,6 +235,21 @@ void Vector<T>::clear() {
 }
 
 template <typename T>
+void Vector<T>::swap(Vector &other) noexcept {
+    T* temp = data_;
+    data_ = other.data_;
+    other.data_ = temp;
+
+    size_t tempSiz = siz;
+    siz = other.siz;
+    other.siz = tempSiz;
+
+    size_t tempCap = cap;
+    cap = other.cap;
+    other.cap = tempCap;
+}
+
+template <typename T>
 T& Vector<T>::front() {
     if (siz == 0) throw std::out_of_range("front() invalid index");
     return data_[0];
@@ -337,6 +353,16 @@ void Vector<T>::push_back(const T& value) {
     }
 
     data_[siz++] = value;
+}
+
+template <typename T>
+bool operator==(const Vector<T>& a, const Vector<T>& b) {
+    if (a.size() != b.size()) return false;
+
+    for (size_t i = 0; i < a.size(); i++) {
+        if (a[i] != b[i]) return false;
+    }
+    return true;
 }
 
 #endif
