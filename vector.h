@@ -13,6 +13,8 @@ class Vector {
     public:
         Vector();
         ~Vector();
+        Vector(const Vector& other);
+        Vector& operator=(const Vector& other);
 
         void push_back(const T& value);
         void reserve (size_t newCap);
@@ -30,6 +32,48 @@ Vector<T>::Vector() : data(nullptr), siz(0), cap(0) {}
 template <typename T>
 Vector<T>::~Vector() {
     delete[] data;
+}
+
+template <typename T>
+Vector<T>::Vector(const Vector& other)
+{
+    siz = other.siz;
+    cap = other.cap;
+
+    if (cap == 0) {
+        data = nullptr;
+        return;
+    }
+
+    data = new T[cap];
+
+    for (size_t i = 0; i < siz; i++) {
+        data[i] = other.data[i];
+    }
+}
+
+template <typename T>
+Vector<T>& Vector<T>::operator=(const Vector& other)
+{
+    if (this == &other) return *this;
+
+    delete[] data;
+
+    siz = other.siz;
+    cap = other.cap;
+
+    if (cap == 0) {
+        data = nullptr;
+        return *this;
+    }
+
+    data = new T[cap];
+
+    for (size_t i = 0; i < siz; i++) {
+        data[i] = other.data[i];
+    }
+
+    return *this;
 }
 
 template <typename T>
@@ -66,8 +110,6 @@ void Vector<T>::resize(size_t newSize)
 
     siz = newSize;
 }
-
-
 
 template <typename T>
 size_t Vector<T>::size() const {
