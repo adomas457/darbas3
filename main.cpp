@@ -14,8 +14,77 @@
 
 int main() {
 
+    std::vector<int> v1;
+    Vector<int> v2;
+    
+    for (int i = 0; i < 5; i++) {
+        v1.push_back(i);
+        v2.push_back(i);
+    }
+
+    // FUNCTION 1 PUSH_BACK
+    /*
+    std::cout << "push_back: " << std::endl;
+    for (int i = 0; i < 5; i++) {
+        std::cout << v1[i] << " " << v2[i] << std::endl;
+    }*/
+
+    // FUNCTION 2 INSERT
+    /*
+    v1.insert(v1.begin() + 2, 99);
+    v2.insert(2, 99);
+
+    std::cout << "insert: " << std::endl;
+    for (size_t i = 0; i < v1.size(); i++) {
+        std::cout << v1[i] << " " << v2[i] << std::endl;
+    }*/
+    
+    // FUNCTION 3 ERASE
+    /*
+    v1.erase(v1.begin() + 1);
+    v2.erase(1);
+
+    std::cout << "erase: " << std::endl;
+    for (size_t i = 0; i < v1.size(); i++) {
+        std::cout << v1[i] << " " << v2[i] << std::endl;
+    }*/
+    
+    // FUNCTION 4 SWAP
+    /*
+    std::vector<int> a;
+    Vector<int> b;
+
+    for (int i = 6; i < 9; i++) {
+        a.push_back(i);
+        b.push_back(i);
+    }
+
+    v1.swap(a);
+    v2.swap(b);
+
+    std::cout << "swap: " << std::endl;
+    std::cout << "std::vector:  ";
+    for (auto i : v1) std::cout << i << " ";
+    std::cout << std::endl;
+    std::cout << "my vector: ";
+    for (auto i : v2) std::cout << i << " ";
+    */
+
+    // FUNCTION 5 OPERATOR[]
+    /*
+    v1[1] = 100;
+    v2[1] = 100;
+
+    std::cout << "operator[]: ";
+    std::cout << v1[1] << " " << v2[1] << std::endl; */
 
 
+
+
+
+
+
+    
     /*using Container = std::vector<Student>;
     //using Container = std::deque<Student>;
     //using Container = std::list<Student>;
