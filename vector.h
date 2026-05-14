@@ -12,7 +12,6 @@ class Vector {
         size_t cap;
     
     public:
-
         Vector();
         ~Vector();
         Vector(const Vector& other);
@@ -25,6 +24,11 @@ class Vector {
         void resize(size_t newSiz);
         void shrink_to_fit();
         size_t max_size() const;
+
+        void insert(size_t index, const T& value);
+        void erase(size_t index);
+        void pop_back();
+        void clear();
 
         T& operator[](size_t index);
         const T& operator[](size_t index) const;
@@ -172,6 +176,42 @@ void Vector<T>::shrink_to_fit() {
 template<typename T>
 size_t Vector<T>::max_size() const {
     return static_cast<size_t>(-1) / sizeof(T);
+}
+
+template <typename T>
+void Vector<T>::insert(size_t index, const T& value) {
+    if (index > siz) return;
+    if (siz == cap) reserve((cap == 0) ? 1 : cap * 2);
+
+    for (size_t i = siz; i > index; i--) {
+        data_[i] = data_[i-1];
+    }
+    data_[index] = value;
+
+    siz++;
+}
+
+template <typename T>
+void Vector<T>::erase(size_t index) {
+    if (index >= siz) return;
+
+    for (size_t i = index; i < siz - 1; i++) {
+        data_[i] = data_[i+1];
+    }
+
+    siz--;
+}
+
+template <typename T>
+void Vector<T>::pop_back() {
+    if (siz > 0) {
+        siz--;
+    }
+}
+
+template <typename T>
+void Vector<T>::clear() {
+    siz = 0;
 }
 
 template <typename T>
