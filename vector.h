@@ -14,6 +14,8 @@ class Vector {
         Vector();
         ~Vector();
 
+        void push_back(const T& value);
+
         size_t size() const;
         size_t capacity() const;
 
@@ -44,5 +46,23 @@ T& Vector<T>::operator[](size_t index) {
     return data[index];
 }
 
+template <typename T>
+void Vector<T>::push_back(const T& value) {
+    if (siz == cap) {
+        size_t newCap = (cap == 0) ? 1 : cap * 2;
+
+        T* newData = new T[newCap];
+
+        for (size_t i = 0; i < siz; i++) {
+            newData[i] = data[i];
+        }
+
+        delete[] data;
+        data = newData;
+        cap = newCap;
+    }
+
+    data[siz++] = value;
+}
 
 #endif
