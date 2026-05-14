@@ -12,6 +12,7 @@ class Vector {
         size_t cap;
     
     public:
+
         Vector();
         ~Vector();
         Vector(const Vector& other);
@@ -29,6 +30,24 @@ class Vector {
         void erase(size_t index);
         void pop_back();
         void clear();
+
+        T& front();
+        const T& front() const;
+
+        T& back();
+        const T& back() const;
+
+        T& at(size_t i);
+        const T& at(size_t i) const;
+
+        T* begin();
+        const T* begin() const;
+
+        T* end();
+        const T* end() const;
+
+        T* data();
+        const T* data() const;
 
         T& operator[](size_t index);
         const T& operator[](size_t index) const;
@@ -212,6 +231,77 @@ void Vector<T>::pop_back() {
 template <typename T>
 void Vector<T>::clear() {
     siz = 0;
+}
+
+template <typename T>
+T& Vector<T>::front() {
+    if (siz == 0) throw std::out_of_range("front() invalid index");
+    return data_[0];
+}
+
+template <typename T>
+const T& Vector<T>::front() const {
+    if (siz == 0) throw std::out_of_range("front() invalid index");
+    return data_[0];
+}
+
+template <typename T>
+T& Vector<T>::back() {
+    if (siz == 0) throw std::out_of_range("back() invalid index");
+    return data_[siz - 1];
+}
+
+template <typename T>
+const T& Vector<T>::back() const {
+    if (siz == 0) throw std::out_of_range("back() invalid index");
+    return data_[siz - 1];
+}
+
+template <typename T>
+T& Vector<T>::at(size_t i) {
+    if (i >= siz) throw std::out_of_range("Vector::at invalid index");
+    return data_[i];
+}
+
+template <typename T>
+const T& Vector<T>::at(size_t i) const
+{
+    if (i >= siz) throw std::out_of_range("Vector::at invalid index");
+    return data_[i];
+}
+
+template <typename T>
+T* Vector<T>::begin() {
+    return data_;
+}
+
+template <typename T>
+const T* Vector<T>::begin() const
+{
+    return data_;
+}
+
+template <typename T>
+T* Vector<T>::end() {
+    return data_ + siz;
+}
+
+template <typename T>
+const T* Vector<T>::end() const
+{
+    return data_ + siz;
+}
+
+
+template <typename T>
+T* Vector<T>::data() {
+    return this->data_;
+}
+
+template <typename T>
+const T* Vector<T>::data() const
+{
+    return this->data_;
 }
 
 template <typename T>
