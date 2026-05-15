@@ -82,14 +82,14 @@ int getInt(const std::string &prompt, int min, int max) {
         try {
             std::cout << prompt;
 
-            if (!(std::cin >> num) || (num < min || num > max)) throw std::runtime_error("Įveskite sveikąjį skaičių tarp " + std::to_string(min) + " ir " + std::to_string(max) + ".");
+            if (!(std::cin >> num) || (num < min || num > max)) throw std::runtime_error("Iveskite sveikaji skaiciu tarp " + std::to_string(min) + " ir " + std::to_string(max) + ".");
             
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             return num;
 
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "Įveskite sveikąjį skaičių tarp " << min << " ir " << max << "." << std::endl;
+            std::cout << "Iveskite sveikaji skaiciu tarp " << min << " ir " << max << "." << std::endl;
         } catch (std::exception &e) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');

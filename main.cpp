@@ -14,8 +14,8 @@
 
 int main() {
 
-    std::vector<int> v1;
-    Vector<int> v2;
+    //std::vector<int> v1;
+    //Vector<int> v2;
 
     /*
     // UZDUOTIS 2
@@ -99,12 +99,6 @@ int main() {
     std::cout << "operator[]: ";
     std::cout << v1[1] << " " << v2[1] << std::endl; */
 
-
-
-
-
-
-
      
     //using Container = std::vector<Student>;
     using Container = Vector<Student>;
@@ -120,14 +114,14 @@ int main() {
         int choice = getInt("Veiksmas: ", 1, 3);
 
         if (choice == 1) {
-            int test = getInt("Įveskite įrašų skaičių: ", 1);
+            int test = getInt("Iveskite irasu skaiciu: ", 1);
 
             generateFile("studentai" + std::to_string(test) + ".txt", test, 10);
 
             
         } else if (choice == 2) {
-            int test = getInt("Įveskite įrašų skaičių: ", 1);
-            rusiavimas = getInt("Surūšiuoti pagal: vardą (1); pavardę (2); pagal vidurkį (3); pagal medianą (4): ", 1, 4);
+            int test = getInt("Iveskite irasu skaiciu: ", 1);
+            rusiavimas = getInt("Surusiuoti pagal: varda (1); pavarde (2); pagal vidurki (3); pagal mediana (4): ", 1, 4);
             try {
 
                 auto start = std::chrono::high_resolution_clock::now();
