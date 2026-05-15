@@ -75,5 +75,11 @@ Ištestuotos visos esminės Vector klasės funkcijos (catch2) test.cpp
 
 ![Test](images/catch2tests.png)
 
+## Naudojimosi instrukcija
+
+1. Paleiskite setup.exe
+2. Programa įdiegiama į C:\Program Files\VU\Adomas-Šapoka
+3. Programą galima paleisti per: darbalaukio nuorodą arba start meniu
+
 
 
