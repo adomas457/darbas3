@@ -2,6 +2,7 @@
 #define UTILS_H
 
 #include "student.h"
+#include "vector.h"
 #include <string>
 #include <vector>
 #include <limits>
@@ -12,6 +13,10 @@
 #include <fstream>
 #include <algorithm>
 #include <deque>
+
+void test(int sz);
+size_t count_std_vector(size_t N);
+size_t count_vector(size_t N);
 
 int getInt(const std::string &prompt, int min = std::numeric_limits<int>::min(), int max = std::numeric_limits<int>::max());
 int utf8_length(std::string s);
@@ -46,130 +51,15 @@ bool rusiuoti(const Student& s1, const Student& s2);
 template<typename Container>
 void splitStudent(Container &stud, const std::string &geri, const std::string &blogi) {
 
-    if constexpr (std::is_same_v<Container, std::list<Student>>) {
-        stud.sort(rusiuoti);
-    } else {
-        std::sort(stud.begin(), stud.end(), rusiuoti);
-    }
-
-
-    auto start = std::chrono::high_resolution_clock::now();
-
-    Container geriStud, blogiStud;
-
-    for (const auto &s : stud) {
-        if (s.getMean() >= 5.0) {
-            geriStud.push_back(s);
-        }
-        else {
-            blogiStud.push_back(s);
-        }
-    }
-
-
-    auto end = std::chrono::high_resolution_clock::now();
-    std::cout << "Studentų skirstymo į dvi grupes laikas: " << std::chrono::duration<double>(end - start).count() << " s\n" << std::endl;
-
-
-    /* std::ofstream fileGeri(geri);
-    std::ofstream fileBlogi(blogi);
-
-    fileGeri << std::left << std::setw(25) << "Vardas" << std::left << std::setw(25) << "Pavarde" << std::left << std::setw(25) << "Galutinis (Vid.)" << 
-    "Galutinis (Med.)" << '\n';
-    for (const auto &s : geriStud) {
-        fileGeri << std::left << std::setw(25) << s.getName() << std::left << std::setw(25) << s.getSurname() << std::left << std::setw(25) 
-        << std::fixed << std::setprecision(2) << s.getMean() << std::fixed << std::setprecision(2) << s.getMedian() << '\n';
-    }
-
-    fileBlogi << std::left << std::setw(25) << "Vardas" << std::left << std::setw(25) << "Pavarde" << std::left << std::setw(25) << "Galutinis (Vid.)" << 
-    "Galutinis (Med.)" << '\n';
-    for (const auto &s : blogiStud) {
-        fileBlogi << std::left << std::setw(25) << s.getName() << std::left << std::setw(25) << s.getSurname() << std::left << std::setw(25) 
-        << std::fixed << std::setprecision(2) << s.getMean() << std::fixed << std::setprecision(2) << s.getMedian() << '\n';
-    }
-    */
-}
-
-
-
-template<typename Container>
-void splitStudent2(Container &stud, const std::string &geri, const std::string &blogi) {
-
-
-    if constexpr (std::is_same_v<Container, std::list<Student>>) {
-        stud.sort(rusiuoti);
-    } else {
-        std::sort(stud.begin(), stud.end(), rusiuoti);
-    }
-
-
-    auto start = std::chrono::high_resolution_clock::now();
-
     Container blogiStud;
 
-    
-    auto it = stud.begin();
-    while (it != stud.end()) {
-        if (it->getMean() < 5.0) {
-            blogiStud.push_back(*it);
-            it = stud.erase(it);
-        } else {
-            it++;
-        }
-    }
-    
+    auto splitPoint = std::partition(stud.begin(), stud.end(), [](const Student &s) { return s.getMean() >= 5.0; });
 
-    auto end = std::chrono::high_resolution_clock::now();
-    std::cout << "Studentų skirstymo į dvi grupes laikas: " << std::chrono::duration<double>(end - start).count() << " s\n" << std::endl;
+    blogiStud = Container(splitPoint, stud.end()); 
+    stud.erase(splitPoint, stud.end());
 
-}
-
-
-template<typename Container>
-void splitStudent3(Container &stud, const std::string &geri, const std::string &blogi) {
-
-
-    if constexpr (std::is_same_v<Container, std::list<Student>>) {
-        
-        stud.sort(rusiuoti);
-        
-    } else if (std::is_same_v<Container, std::deque<Student>>) {
-        
-        std::sort(stud.begin(), stud.end(), rusiuoti);
-
-    }
-
-
-    auto start = std::chrono::high_resolution_clock::now();
-
-    Container blogiStud;
-
-    if constexpr (!std::is_same_v<Container, std::vector<Student>>) {
-        auto it = stud.begin();
-        while (it != stud.end()) {
-            if (it->getMean() < 5.0) {
-                blogiStud.push_back(*it);
-                it = stud.erase(it);
-            } else {
-                it++;
-            }
-        }
-        
-    } else {
-        auto splitPoint = std::partition(stud.begin(), stud.end(), [](const Student &s) { return s.getMean() >= 5.0; });
-
-        blogiStud = Container(splitPoint, stud.end()); 
-        stud.erase(splitPoint, stud.end());
-
-    }
-
-    auto end = std::chrono::high_resolution_clock::now();
-    std::cout << "Studentų skirstymo į dvi grupes laikas: " << std::chrono::duration<double>(end - start).count() << " s\n" << std::endl;
-
-    /*if constexpr (std::is_same_v<Container, std::vector<Student>>) {
-        std::sort(stud.begin(), stud.end(), rusiuoti);
-        std::sort(blogiStud.begin(), blogiStud.end(), rusiuoti);
-    }*/
+    std::sort(stud.begin(), stud.end(), rusiuoti);
+    std::sort(blogiStud.begin(), blogiStud.end(), rusiuoti);
 }
 
 

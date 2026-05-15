@@ -11,6 +11,70 @@
 
 int rusiavimas = 2;
 
+void test(int sz) {
+    std::cout << "Size: " << sz << std::endl;
+
+    auto start1 = std::chrono::high_resolution_clock::now();
+
+    std::vector<int> v1;
+    for (int i = 1; i <= sz; i++) {
+        v1.push_back(i);
+    }
+
+    auto end1 = std::chrono::high_resolution_clock::now();
+    auto duration1 = std::chrono::duration<double>(end1 - start1).count();
+
+    auto start2 = std::chrono::high_resolution_clock::now();
+
+    Vector<int> v2;
+    for (int i = 1; i <= sz; i++) {
+        v2.push_back(i);
+    }
+
+    auto end2 = std::chrono::high_resolution_clock::now();
+    auto duration2 = std::chrono::duration<double>(end2 - start2).count();
+
+    std::cout << "std::vector: " << duration1 * 1000 << " ms" << std::endl;
+    std::cout << "Vector     : " << duration2 * 1000 << " ms" << std::endl;
+    std::cout << "--------------------------" << std::endl;
+}
+
+size_t count_std_vector(size_t N) {
+    std::vector<int> v;
+
+    size_t count = 0;
+    size_t cap = v.capacity();
+
+    for (size_t i = 0; i < N; i++) {
+        v.push_back(i);
+
+        if (v.capacity() != cap) {
+            count++;
+            cap = v.capacity();
+        }
+    }
+
+    return count;
+}
+
+size_t count_vector(size_t N) {
+    Vector<int> v;
+
+    size_t count = 0;
+    size_t cap = v.capacity();
+
+    for (size_t i = 0; i < N; i++) {
+        v.push_back(i);
+
+        if (v.capacity() != cap) {
+            count++;
+            cap = v.capacity();
+        }
+    }
+
+    return count;
+}
+
 int getInt(const std::string &prompt, int min, int max) {
     int num;
 
