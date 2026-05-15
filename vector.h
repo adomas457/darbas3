@@ -4,6 +4,11 @@
 #include <cstddef>
 #include <stdexcept>
 
+/**
+ * @brief Vector klasė
+ * @tparam T elementų tipas
+ */
+
 template <typename T>
 class Vector {
     private:
@@ -13,48 +18,95 @@ class Vector {
     
     public:
 
+        /// @brief Konstruktorius (sukuria tuščią Vector)
         Vector();
+
+        /// @brief Konstruktorius iš intervalo
+        Vector(T* first, T* last);
+
+        /// @brief Destruktorius
         ~Vector();
+
+        /// @brief Copy konstruktorius
         Vector(const Vector& other);
+
+        /// @brief Copy assingment
         Vector& operator=(const Vector& other);
+
+        /// @brief Move konstruktorius
         Vector(Vector&& other) noexcept;
+
+        /// @brief Move assignment
         Vector& operator=(Vector&& other) noexcept;
 
+        /// @brief Prideda elementą į galą
         void push_back(const T& value);
-        void reserve (size_t newCap);
+
+        /// @brief Keičia capacity
+        void reserve(size_t newCap);
+
+        /// @brief Keičia size
         void resize(size_t newSiz);
+
+        /// @brief Sumažina capacity iki size
         void shrink_to_fit();
+
+        /// @brief Maksimalus galimas size
         size_t max_size() const;
 
-        void insert(size_t index, const T& value);
-        void erase(size_t index);
+        /// @brief Įterpia elementą
+        T* insert(T* pos, const T& value);
+
+        /// @brief Ištrina elementą
+        T* erase(T* pos);
+
+        /// @brief Ištrina elementų intervalą
+        T* erase(T* first, T* last);
+
+        /// @brief Pašalina paskutinį elementą
         void pop_back();
+
+        /// @brief Ištrina visus elementus (pravalo Vector)
         void clear();
+
+        /// @brief Sukeičia du Vector
         void swap(Vector& other) noexcept;
 
+        /// @brief Grąžina pirmą elementą
         T& front();
         const T& front() const;
 
+        /// @brief Grąžina paskutinį elementą
         T& back();
         const T& back() const;
 
+        /// @brief Saugi prieiga (bounds tikrinimas)
         T& at(size_t i);
         const T& at(size_t i) const;
 
+        /// @brief Grąžina pradinį iteratorių
         T* begin();
         const T* begin() const;
 
+        /// @brief Grąžina paskutinį iteratorių
         T* end();
         const T* end() const;
 
+        /// @brief Rodyklė į Vectoriaus masyvą (duomenis)
         T* data();
         const T* data() const;
 
+        /// @brief Operatorius []
         T& operator[](size_t index);
         const T& operator[](size_t index) const;
 
+        /// @brief Grąžina elementų skaičių
         size_t size() const;
+
+        /// @brief Grąžina capacity
         size_t capacity() const;
+
+        /// @brief Tikrina ar Vector tuščias
         bool empty() const;
 };
 
@@ -81,6 +133,17 @@ Vector<T>::Vector(const Vector& other)
 
     for (size_t i = 0; i < siz; i++) {
         data_[i] = other.data_[i];
+    }
+}
+
+template <typename T>
+Vector<T>::Vector(T* first, T* last) {
+    siz = last - first;
+    cap = siz;
+    data_ = new T[cap];
+
+    for (size_t i = 0; i < siz; i++) {
+        data_[i] = *(first + i);
     }
 }
 
@@ -199,28 +262,48 @@ size_t Vector<T>::max_size() const {
 }
 
 template <typename T>
-void Vector<T>::insert(size_t index, const T& value) {
-    if (index > siz) return;
+T* Vector<T>::insert(T* pos, const T& value) {
+    size_t index = pos - data_;
+
     if (siz == cap) reserve((cap == 0) ? 1 : cap * 2);
 
-    for (size_t i = siz; i > index; i--) {
-        data_[i] = data_[i-1];
+    pos = data_ + index;
+
+    for (T* it = data_ + siz; it > pos; it--) {
+        *it = *(it - 1);
     }
-    data_[index] = value;
+    *pos = value;
 
     siz++;
+
+    return pos;
 }
 
 template <typename T>
-void Vector<T>::erase(size_t index) {
-    if (index >= siz) return;
+T* Vector<T>::erase(T* pos) {
 
-    for (size_t i = index; i < siz - 1; i++) {
-        data_[i] = data_[i+1];
+    for (T* it = pos; it < data_ + siz - 1; it++) {
+        *it = *(it + 1);
     }
 
     siz--;
+
+    return pos;
 }
+
+template <typename T>
+T* Vector<T>::erase(T* first, T* last)
+{
+    T* newEnd = first;
+
+    for (T* it = last; it < data_ + siz; it++) {
+        *newEnd = *it;
+        newEnd++;
+    }
+
+    siz -= (last - first);
+    return first;
+} 
 
 template <typename T>
 void Vector<T>::pop_back() {
@@ -353,16 +436,6 @@ void Vector<T>::push_back(const T& value) {
     }
 
     data_[siz++] = value;
-}
-
-template <typename T>
-bool operator==(const Vector<T>& a, const Vector<T>& b) {
-    if (a.size() != b.size()) return false;
-
-    for (size_t i = 0; i < a.size(); i++) {
-        if (a[i] != b[i]) return false;
-    }
-    return true;
 }
 
 #endif
