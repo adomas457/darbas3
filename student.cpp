@@ -45,7 +45,7 @@ Student& Student::operator=(Student&& other) noexcept {
 }
 
 Student::~Student() { 
-    std::cout << "Objektas ištrintas" << std::endl;
+    
 }
 
 double calculateMean(const std::vector<int> &hm, int exam) {
