@@ -33,7 +33,7 @@ Pašalintas elementas iš 1 indekso
 
 ## 4. swap
 
-Abu konteineriai buvo sukeisti su naujais, užpildytais reikšmėmis 6–8
+Abu konteineriai buvo sukeisti su naujais konteineriais, užpildytais reikšmėmis 6–8
 
 ![Testing4](images/func4.png)
 
@@ -44,3 +44,36 @@ Abu konteineriai buvo sukeisti su naujais, užpildytais reikšmėmis 6–8
 Naudojant operator[], 1 indekso elementas pakeistas į 100
 
 ![Testing5](images/func5.png)
+
+---
+
+## std::vector ir Vector užpildymo laikai naudojant push_back
+
+Lentelėje pateikti vidurkiai (3 bandymai)
+
+![Laikai](images/inttest.png)
+
+---
+
+## std::vector ir Vector atminties perskirstymai užpildant 100000000 elementų
+
+![Perskirstymai](images/perskirsttest.png)
+
+---
+
+## Studentų įrašų spartos analizė
+
+Lentelėje pateikti vidurkiai (3 bandymai)
+
+![Laikai2](images/studtest.png)
+
+---
+
+## Catch testai
+
+Ištestuotos visos esminės Vector klasės funkcijos (catch2) test.cpp
+
+![Test](images/catch2tests.png)
+
+
+
